@@ -15,7 +15,7 @@ require 'rollbar/request_data_extractor'
 require 'rollbar/exception_reporter'
 require 'rollbar/active_record_extension' if defined?(ActiveRecord)
 require 'rollbar/util'
-require 'rollbar/railtie' if defined?(Rails)
+require 'rollbar/railtie' if defined?(Rails) unless ENV['ROLLBAR_SKIP_RAILTIE']
 
 unless ''.respond_to? :encode
   require 'iconv'
