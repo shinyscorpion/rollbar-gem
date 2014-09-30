@@ -15,7 +15,7 @@ require 'rollbar/configuration'
 require 'rollbar/logger_proxy'
 require 'rollbar/exception_reporter'
 require 'rollbar/util'
-require 'rollbar/railtie' if defined?(Rails::VERSION)
+require 'rollbar/railtie' if defined?(Rails::VERSION) unless ENV['ROLLBAR_SKIP_RAILTIE']
 require 'rollbar/delay/girl_friday'
 require 'rollbar/delay/thread'
 require 'rollbar/truncation'
