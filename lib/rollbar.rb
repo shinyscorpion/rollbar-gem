@@ -518,7 +518,13 @@ module Rollbar
       body = dump_payload(payload)
 
       uri = URI.parse(configuration.endpoint)
-      http = Net::HTTP.new(uri.host, uri.port)
+      http =
+        if proxy_uri = ENV['http_proxy']
+          p_uri = URI.parse(proxy_uri)
+          Net::HTTP.new(uri.host, uri.port, p_uri.host, p_uri.port, p_uri.user, p_uri.password)
+        else
+          Net::HTTP.new(uri.host, uri.port)
+        end
       http.read_timeout = configuration.request_timeout
 
       if uri.scheme == 'https'
