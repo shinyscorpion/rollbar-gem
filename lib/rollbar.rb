@@ -518,8 +518,10 @@ module Rollbar
       body = dump_payload(payload)
 
       uri = URI.parse(configuration.endpoint)
+      proxy_uri = ENV["ROLLBAR_PROXY"] || ENV['http_proxy']
+      proxy_uri = nil if proxy_uri == "" || proxy_uri == "-"
       http =
-        if proxy_uri = ENV['http_proxy']
+        if proxy_uri
           p_uri = URI.parse(proxy_uri)
           Net::HTTP.new(uri.host, uri.port, p_uri.host, p_uri.port, p_uri.user, p_uri.password)
         else
